@@ -3,7 +3,7 @@
 #let ctu-font = ("Technika")
 
 #let appendix(body) = {
-  set heading(numbering: "A.1.")
+  set heading(numbering: "A.1")
   show heading.where(level: 1): set heading(supplement: [Appendix])
   counter(heading).update(0)
   body
@@ -18,7 +18,7 @@
     department: none,
 
     supervisor: none,
-    study_program: none,
+    study-program: none,
 
     assignment-pages: 1,
 
@@ -28,8 +28,8 @@
     abstract-en: none,
     abstract-cs: none,
 
-    keywords-en: none,
-    keywords-cs: none,
+    keywords-en: (),
+    keywords-cs: (),
 
     body
 ) = {
@@ -131,7 +131,7 @@
         text(fill: ctu-color, font: ctu-font, weight: "bold")[#math.square.filled]
     )
 
-    set heading(numbering: "1.")
+    set heading(numbering: "1.1")
     show heading: set text(fill: ctu-color, font: ctu-font, weight: "bold")
     show heading: set par(justify: false, first-line-indent: 0em)
 
@@ -142,17 +142,27 @@
 
     show heading.where(level: 1): it => {
         pagebreak()
-        box(stroke: (left: 0.5em + ctu-color), inset: (left: 0.5em))[
+        box(stroke: (left: 0.5em + ctu-color), inset: (left: 0.5em, bottom: 1em))[
             #text(fill: black, weight: "regular")[
-                #it.supplement #context counter(heading).display(it.numbering)
+                #it.supplement #context counter(heading).display()
             ]\
             #it.body
         ]
         linebreak()
     }
 
+    set math.equation(numbering: "(1)")
+
+    set bibliography(title: none)
+
+    show link: set text(fill: ctu-color, weight: "bold")
+    show ref: set text(fill: ctu-color, weight: "bold")
+
     let sub-heading(body) = {
-        box(stroke: (left: 0.5em + ctu-color), inset: (left: 0.5em))[
+        box(
+            stroke: (left: 0.5em + ctu-color),
+            inset: (left: 0.5em, bottom: 1em))
+        [
             #par(justify: false, first-line-indent: 0em)[
                 #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em)[
                     #body
@@ -162,16 +172,13 @@
     }
 
     let semi-heading(body) = {
-        box(width: 100%,
+        box(width: 100%, inset: (bottom: 1em),
         par(justify: false, first-line-indent: 0em)[
             #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em)[
                 #body
             ]
         ])
     }
-    
-
-    show link: set text(fill: ctu-color)
 
     page(numbering: none)[ #box[
         #align(left)[#text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em, hyphenate: false)[
@@ -203,9 +210,9 @@
                     ]
                 ]
 
-                #if study_program != none [
+                #if study-program != none [
                     #text(fill: black, font: ctu-font, size: 1.25em)[
-                        #ctu-loc.at("study-program").at(lang): #study_program
+                        #ctu-loc.at("study-program").at(lang): #study-program
                     ]
                 ]
 
@@ -263,7 +270,7 @@
                 ]
             ],
             box(height: 100%)[
-                #if keywords-cs != none [
+                #if keywords-cs != () [
                     #semi-heading(ctu-loc.at("keywords").at("cs"))
 
                     #for keyword in keywords-cs [
@@ -274,7 +281,7 @@
             ],
             grid.vline(stroke: 1.5em + ctu-color),
             box(height: 100%)[
-                #if keywords-en != none [
+                #if keywords-en != () [
                     #semi-heading(ctu-loc.at("keywords").at("en"))
 
                     #for keyword in keywords-en [
