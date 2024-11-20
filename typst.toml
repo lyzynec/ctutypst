@@ -1,0 +1,17 @@
+[package]
+name = "ctutypst"
+version = "0.0.1"
+compiler = "0.12.0"
+repository = "https://github.com/lyzynec/ctutypst"
+homepage = "https://github.com/lyzynec/ctutypst"
+entrypoint = "lib.typ"
+authors = [
+  "Matěj Kříž <https://github.com/lyzynec>",
+]
+categories = [ "thesis" ]
+description = "Simple CTU thesis template."
+
+#[template]
+#path = "template"
+#entrypoint = "main.typ"
+#thumbnail = "thumbnail.png"
