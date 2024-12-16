@@ -2,24 +2,26 @@
 
 // NOTE: All arguments areentirely optional.
 #show: ctutypst.with(
-  title: [Thesis Example],
-  author: "lyzynec",
-  lang: "en",
-  institution: "fel",
+    title: [Thesis Example],
+    author: "lyzynec",
+    lang: "en",
+    institution: "fel",
 
-  department: "Department of Control Engineering",
+    department: "Department of Control Engineering",
 
-  supervisor: "Some Guy",
-  study-program: "bruh",
+    supervisor: "Some Guy",
+    study-program: "bruh",
 
-  acknowledgements: "I want to thank god (Jiří Velebil).",
-  declaration: "I hereby declare myself sleepy.",
+    assignment-pages: 1, // How many pages does the assignment have
 
-  abstract-en: [English abstract here.],
-  abstract-cs: [Český abstrakt zde.],
+    acknowledgements: "I want to thank god (Jiří Velebil).",
+    declaration: "I hereby declare myself sleepy.",
 
-  keywords-en: ("key", "word"),
-  keywords-cs: ("klíčo", "slovo"),
+    abstract-en: [English abstract here.],
+    abstract-cs: [Český abstrakt zde.],
+
+    keywords-en: ("key", "word"),
+    keywords-cs: ("klíčo", "slovo"),
 )
 
 = Introduction
@@ -31,24 +33,24 @@
 == Figures
 Reference to figure @fig.
 #figure(caption: [This is a figure.],
-  image("./resources/symbols/symbol-inv.svg")
+    image("./resources/symbols/symbol-inv.svg")
 ) <fig>
 
 == Tables
 Reference to table @tab.
 #figure(caption: [This is a table.], table(
-  columns: 2,
-  [a], [b],
-  [c], [d],
+    columns: 2,
+    [a], [b],
+    [c], [d],
 ))<tab>
 
 = Math
 Here goes an equation @eq.
 $
-  A bold(x) = bold(b)
+A bold(x) = bold(b)
 $ <eq>
 
-// From now on, headings are appendicies
+// From now on, headings are appendices
 #show: appendix
 
 = Additional Stuff

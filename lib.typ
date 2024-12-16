@@ -3,10 +3,10 @@
 #let ctu-font = ("Technika")
 
 #let appendix(body) = {
-  set heading(numbering: "A.1")
-  show heading.where(level: 1): set heading(supplement: [Appendix])
-  counter(heading).update(0)
-  body
+    set heading(numbering: "A.1")
+    show heading.where(level: 1): set heading(supplement: [Appendix])
+    counter(heading).update(0)
+    body
 }
 
 #let ctutypst(
@@ -324,4 +324,3 @@
 
     body
 }
-
