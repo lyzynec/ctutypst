@@ -162,16 +162,15 @@
 
     show heading.where(level: 1): it => {
         pagebreak()
-        context if calc.even(here().page()) {
-            page[]
-        }
-        box(stroke: (left: 0.5em + ctu-color), inset: (left: 0.5em, bottom: 1em))[
+        context if calc.even(here().page()) { page[] }
+        block(box(stroke: (left: 0.5em + ctu-color), inset: (left: 0.5em, bottom: 1em, top: 2em))[
             #text(fill: black, weight: "regular")[
                 #it.supplement #context counter(heading).display()
-            ]\
+            ]
+            #linebreak()
             #it.body
-        ]
-        linebreak()
+            #linebreak()
+        ])
     }
 
     set math.equation(numbering: "(1)")
