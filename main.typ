@@ -12,7 +12,7 @@
     supervisor: "Some Guy",
     study-program: "bruh",
 
-    assignment-pages: 1, // How many pages does the assignment have
+    //assignment: "assignment.pdf",
 
     acknowledgements: "I want to thank god (Jiří Velebil).",
     declaration: "I hereby declare myself sleepy.",

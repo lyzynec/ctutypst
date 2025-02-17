@@ -1,3 +1,5 @@
+#import "@preview/muchpdf:0.1.0": muchpdf
+
 //#let ctu-color = cmyk(100%, 43%, 0%, 0%) // this is the correct color, but all logos are wrong -_-
 #let ctu-color = rgb(0, 101, 189)
 #let ctu-font = ("Technika")
@@ -20,7 +22,7 @@
     supervisor: none,
     study-program: none,
 
-    assignment-pages: 1,
+    assignment: none,
 
     acknowledgements: none,
     declaration: none,
@@ -118,14 +120,12 @@
     }
 
     set document(author: author, date: date, keywords: keywords, title: title)
-    set page(margin: 25mm, number-align: center, numbering: "1", paper: "a4")
-
-    if calc.odd(assignment-pages) { assignment-pages += 1 }
+    set page(margin: 25mm, number-align: center, numbering: "i", paper: "a4")
 
     set par(first-line-indent: 2em, justify: true)
     set block(spacing: 0.8em)
 
-    set text(lang: lang)
+    set text(lang: lang, font: ctu-font)
 
     set list(marker:
         text(fill: ctu-color, font: ctu-font, weight: "bold")[#math.square.filled]
@@ -142,6 +142,9 @@
 
     show heading.where(level: 1): it => {
         pagebreak()
+        context if calc.even(here().page()) {
+            page[]
+        }
         box(stroke: (left: 0.5em + ctu-color), inset: (left: 0.5em, bottom: 1em))[
             #text(fill: black, weight: "regular")[
                 #it.supplement #context counter(heading).display()
@@ -174,7 +177,7 @@
     let semi-heading(body) = {
         box(width: 100%, inset: (bottom: 1em),
         par(justify: false, first-line-indent: 0em)[
-            #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em)[
+            #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 1.8em)[
                 #body
             ]
         ])
@@ -205,18 +208,18 @@
 
             #align(bottom)[
                 #if supervisor != none [
-                    #text(fill: black, font: ctu-font, size: 1.25em)[
+                    #text(fill: black, font: ctu-font, size: 1.2em)[
                         #ctu-loc.at("supervisor").at(lang): #supervisor
                     ]
                 ]
 
                 #if study-program != none [
-                    #text(fill: black, font: ctu-font, size: 1.25em)[
+                    #text(fill: black, font: ctu-font, size: 1.2em)[
                         #ctu-loc.at("study-program").at(lang): #study-program
                     ]
                 ]
 
-                #text(fill: black, font: ctu-font, size: 1.25em)[
+                #text(fill: black, font: ctu-font, size: 1.2em)[
                     #ctu-loc.at("months").at(date.month() - 1).at(lang)
                     #date.year() 
                 ]
@@ -224,9 +227,17 @@
         ]
     ]]
 
+    page[]
+
+    if assignment != none {
+        set page(numbering: none)
+        muchpdf(read(assignment, encoding: none), height: 100%)
+        set page(numbering: "i")
+    }
+
+    context if calc.even(here().page()) { page[] }
     
-    for i in range(assignment-pages) {page()[]}
-        
+
     // acknowledgements and declaration
     page(
         grid(
@@ -321,6 +332,37 @@
             }
         }
     )
+
+    context if calc.even(here().page()) { page[] }
+
+    counter(page).update(1)
+
+
+    let numberingH(c)={
+        return numbering(c.numbering,..counter(heading).at(c.location()))
+    }
+
+    let currentH(level: 1)={
+        let elems = query(selector(heading.where(level: level)).after(here()))
+
+        if elems.len() != 0 and elems.first().location().page() == here().page() {
+            return [#numberingH(elems.first()) #elems.first().body] 
+        } else {
+            elems = query(selector(heading.where(level: level)).before(here()))
+            if elems.len() != 0 {
+            return [#numberingH(elems.last()) #elems.last().body] 
+            }
+        }
+        return ""
+    }
+
+    set page(numbering: "1", header: context{
+        if calc.even(here().page()) [
+            #align(left, text(currentH(), size: 1.5em, fill: ctu-color, font: ctu-font))
+        ] else [
+            #align(right, text(currentH(level: 2), size: 1em, font: ctu-font))
+        ]
+    })
 
     body
 }
