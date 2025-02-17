@@ -13,6 +13,7 @@
 
 #let ctutypst(
     title: none,
+    subtitle: none,
     author: (),
     lang: "cs",
     date: datetime.today(),
@@ -85,6 +86,15 @@
             cs: "České vysoké učení technické v Praze",
             en: "Czech Technical University in Prague",
         ),
+        bachelor-thesis: (
+            cs: "Bakalářská práce",
+            en: "Bachelor Thesis",
+        ),
+        diploma-thesis: (
+            cs: "Diplomová práce",
+            en: "Diploma Thesis",
+        ),
+
         department:     (cs: "Katedra",             en: "Department"),
         supervisor:     (cs: "Vedoucí práce",       en: "Supervisor"),
         study-program:  (cs: "Studijní program",    en: "Study program"),
@@ -128,7 +138,7 @@
     set text(lang: lang, font: ctu-font)
 
     set list(marker:
-        text(fill: ctu-color, font: ctu-font, weight: "bold")[#math.square.filled]
+        text(fill: ctu-color, font: ctu-font, weight: "bold", math.square.filled)
     )
 
     set heading(numbering: "1.1")
@@ -187,39 +197,46 @@
         #align(left)[#text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em, hyphenate: false)[
             #ctu-loc.at("czech-technical-university").at(lang)
         ]]
-                #box(
+        
+        #box(
             stroke: (left: 1.5em + ctu-color),
-            inset: (left: 1.5em),
+            inset: (left: 1.5em, top: 0.5em, bottom: 0.5em),
             height: 100%,
         )[
+            #text(ctu-loc.at("diploma-thesis").at(lang), font: ctu-font, size: 2em)
+
             #image(ctu-logo-map.faculty.at(institution).at(lang), height: 10em)
 
-            #text(fill: ctu-color, font: ctu-font, size: 3em, weight: "bold")[#title]
+            #v(1em)
 
-            #text(fill: black, font: ctu-font, size: 2em)[#author]
+            #text(fill: ctu-color, font: ctu-font, size: 2.5em, weight: "bold", title)
+            #text(fill: black, font: ctu-font, size: 2em, subtitle)
 
-            #align(horizon)[
-            #if department != none [
-                    #text(fill: black, font: ctu-font, size: 1.5em)[
-                        #department
-                    ]
-                ]
-            ]
+            #align(horizon, text(fill: black, font: ctu-font, size: 2em, author))
+
+            #v(2em)
+
+            #align(horizon,
+                if department != none {
+                    text(fill: black, font: ctu-font, size: 1.6em, department)
+                    
+                }
+            )
 
             #align(bottom)[
                 #if supervisor != none [
-                    #text(fill: black, font: ctu-font, size: 1.2em)[
+                    #text(fill: black, font: ctu-font, size: 1.25em)[
                         #ctu-loc.at("supervisor").at(lang): #supervisor
                     ]
                 ]
 
                 #if study-program != none [
-                    #text(fill: black, font: ctu-font, size: 1.2em)[
+                    #text(fill: black, font: ctu-font, size: 1.25em)[
                         #ctu-loc.at("study-program").at(lang): #study-program
                     ]
                 ]
 
-                #text(fill: black, font: ctu-font, size: 1.2em)[
+                #text(fill: black, font: ctu-font, size: 1.25em)[
                     #ctu-loc.at("months").at(date.month() - 1).at(lang)
                     #date.year() 
                 ]
