@@ -10,6 +10,3 @@ https://campuscvut.sharepoint.com/sites/inforek-ma/ma_GrafickyManual.
 
 In case of using Typst web app, simply paste the font files into the root
 directory.
-
-## TODO
-- [ ] Enable inclusion of PDFs (as soon as Typst adds support or do some hack)
