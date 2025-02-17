@@ -322,18 +322,22 @@
     )))
 
     // contents
-    page(columns(2, gutter: 3em)[
-        #semi-heading(ctu-loc.at("contents").at(lang))
-        #outline(
-            title: none,
-            depth: 3,
-            target: heading,
-            fill: repeat(text(fill: ctu-color)[#math.dot]),
-            indent: true,
-        )
-    ])
+    page({
+        place(top + center, line(angle: 90deg, length: 100%, stroke: 1.5em + ctu-color))
+        columns(2, gutter: 6em)[
+            #semi-heading(ctu-loc.at("contents").at(lang))
+            #outline(
+                title: none,
+                depth: 3,
+                target: heading,
+                fill: repeat(text(fill: ctu-color)[#math.dot]),
+                indent: true,
+            )
+        ]
+    })
     page(context {if counter(figure).final().at(0) > 0 {
-        columns[
+        place(top + center, line(angle: 90deg, length: 100%, stroke: 1.5em + ctu-color))
+        columns(2, gutter: 6em)[
             #semi-heading(ctu-loc.at("figures").at(lang))
             #outline(
                 title: none,
@@ -361,7 +365,7 @@
         } else {
             elems = query(selector(heading.where(level: level)).before(here()))
             if elems.len() != 0 {
-            return [#numberingH(elems.last()) #elems.last().body] 
+                return [#numberingH(elems.last()) #elems.last().body] 
             }
         }
         return ""
