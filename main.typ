@@ -3,6 +3,8 @@
 // NOTE: All arguments areentirely optional.
 #show: ctutypst.with(
     title: [Thesis Example],
+    title-translated: [Příklad práce],
+    subtitle: [This is a subtitle.],
     author: "lyzynec",
     lang: "en",
     institution: "fel",
@@ -12,6 +14,7 @@
     department: "Department of Control Engineering",
 
     supervisor: "Some Guy",
+    supervisor-address: "Somewhere",
     study-program: "bruh",
 
     //assignment: "assignment.pdf",

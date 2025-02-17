@@ -16,6 +16,7 @@
 
 #let ctutypst(
     title: none,
+    title-translated: none,
     subtitle: none,
     author: (),
     lang: "cs",
@@ -25,6 +26,7 @@
     department: none,
 
     supervisor: none,
+    supervisor-address: none,
     study-program: none,
 
     assignment: none,
@@ -97,6 +99,12 @@
         diploma-thesis: (
             cs: "Diplomová práce",
             en: "Diploma Thesis",
+        ),
+
+        // this is inverted for obvious reasons
+        title-translation: (
+            cs: "Title Translation",
+            en: "Překlad názvu",
         ),
 
         department:     (cs: "Katedra",             en: "Department"),
@@ -181,7 +189,7 @@
             inset: (left: 0.5em, bottom: 1em))
         [
             #par(justify: false, first-line-indent: 0em)[
-                #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em)[
+                #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 1.5em)[
                     #body
                 ]
             ]
@@ -191,13 +199,13 @@
     let semi-heading(body) = {
         box(width: 100%, inset: (bottom: 1em),
         par(justify: false, first-line-indent: 0em)[
-            #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 1.8em)[
+            #text(fill: ctu-color, font: ctu-font, size: 1.5em)[
                 #body
             ]
         ])
     }
 
-    page(numbering: none)[ #box[
+    page(numbering: none, box[
         #align(left)[#text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em, hyphenate: false)[
             #ctu-loc.at("czech-technical-university").at(lang)
         ]]
@@ -214,18 +222,18 @@
             #v(1em)
 
             #text(fill: ctu-color, font: ctu-font, size: 2.5em, weight: "bold", title)
-            #text(fill: black, font: ctu-font, size: 2em, subtitle)
-
-            #align(horizon, text(fill: black, font: ctu-font, size: 2em, author))
-
             #v(2em)
+            #linebreak()
+            #text(fill: black, font: ctu-font, size: 2em, subtitle)
+            #linebreak()
 
-            #align(horizon,
-                if department != none {
+            #align(horizon, [
+                #text(fill: black, font: ctu-font, size: 2em, author)
+                #v(2em)
+                #if department != none {
                     text(fill: black, font: ctu-font, size: 1.6em, department)
-                    
                 }
-            )
+            ])
 
             #align(bottom)[
                 #if supervisor != none [
@@ -246,7 +254,7 @@
                 ]
             ]
         ]
-    ]]
+    ])
 
     page[]
 
@@ -260,11 +268,7 @@
     
 
     // acknowledgements and declaration
-    page(
-        grid(
-            columns: (50%, 50%),
-            align: (center, center),
-
+    page(box(grid(columns: (50%, 50%), align: center, row-gutter: 5em,
             box(height: 100%)[
                 #if acknowledgements != none [
                     #semi-heading(ctu-loc.at("acknowledgement").at(lang))
@@ -279,80 +283,66 @@
                 ]
             ]
         )
-    )
+    ))
 
     // abstract and keywords
-    page(
-        box(grid(
-            columns: (50%, 50%),
-            align: (center, center),
-
-            box(inset: (bottom: 5em))[
-                #if abstract-cs != none [
-                    #semi-heading(ctu-loc.at("abstract").at("cs"))
-                    #abstract-cs
-                ]
-            ],
-            grid.vline(stroke: 1.5em + ctu-color),
-            box(inset: (bottom: 5em))[
-                #if abstract-en != none [
-                    #semi-heading(ctu-loc.at("abstract").at("en"))
-
-                    #abstract-en
-                ]
-            ],
-            box(height: 100%)[
-                #if keywords-cs != () [
-                    #semi-heading(ctu-loc.at("keywords").at("cs"))
-
-                    #for keyword in keywords-cs [
-                        #if keyword != keywords-cs.at(0) {","}
-                        #keyword
-                    ]
-                ]
-            ],
-            grid.vline(stroke: 1.5em + ctu-color),
-            box(height: 100%)[
-                #if keywords-en != () [
-                    #semi-heading(ctu-loc.at("keywords").at("en"))
-
-                    #for keyword in keywords-en [
-                        #if keyword != keywords-en.at(0) {","}
-                        #keyword
-                    ]
-                ]
-            ]       
-        ))
-    )
+    page(box(grid(columns: (50%, 50%), align: center, inset: 1em, row-gutter: 5em,
+        box(if abstract-cs != none [
+            #semi-heading(ctu-loc.at("abstract").at("cs"))
+            #abstract-cs
+        ]),
+        grid.vline(stroke: 1.5em + ctu-color),
+        box(if abstract-en != none [
+            #semi-heading(ctu-loc.at("abstract").at("en"))
+            #abstract-en
+        ]),
+        box(if keywords-cs != () [
+            #semi-heading(ctu-loc.at("keywords").at("cs"))
+            #for keyword in keywords-cs [
+                #if keyword != keywords-cs.at(0) {","}
+                #keyword
+            ]
+        ]),
+        box(if keywords-en != () [
+            #semi-heading(ctu-loc.at("keywords").at("en"))
+            #for keyword in keywords-en [
+                #if keyword != keywords-en.at(0) {","}
+                #keyword
+            ]
+        ]),
+        box(height: 100%, if title-translated != none [
+            #semi-heading(ctu-loc.at("title-translation").at(lang))
+            #title-translated
+        ]),
+        box(height: 100%, if supervisor != none and supervisor-address != none [
+            #semi-heading(ctu-loc.at("supervisor").at(lang))
+            #supervisor\
+            #supervisor-address
+        ]),
+    )))
 
     // contents
-    page(
-        columns(2)[
-            #semi-heading(ctu-loc.at("contents").at(lang))
+    page(columns(2, gutter: 3em)[
+        #semi-heading(ctu-loc.at("contents").at(lang))
+        #outline(
+            title: none,
+            depth: 3,
+            target: heading,
+            fill: repeat(text(fill: ctu-color)[#math.dot]),
+            indent: true,
+        )
+    ])
+    page(context {if counter(figure).final().at(0) > 0 {
+        columns[
+            #semi-heading(ctu-loc.at("figures").at(lang))
             #outline(
                 title: none,
-                depth: 3,
-                target: heading,
+                depth: 1,
+                target: figure.where(kind: image),
                 fill: repeat(text(fill: ctu-color)[#math.dot]),
-                indent: true
             )
         ]
-    )
-    page(
-        context {
-            if counter(figure).final().at(0) > 0 {
-                columns[
-                    #semi-heading(ctu-loc.at("figures").at(lang))
-                    #outline(
-                        title: none,
-                        depth: 1,
-                        target: figure.where(kind: image),
-                        fill: repeat(text(fill: ctu-color)[#math.dot]),
-                    )
-                ]
-            }
-        }
-    )
+    }})
 
     context if calc.even(here().page()) { page[] }
 
