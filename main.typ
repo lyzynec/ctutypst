@@ -9,7 +9,7 @@
     lang: "en",
     institution: "fel",
 
-    thesis-type: ctu-diploma-thesis,
+    thesis-type: ctu-masters-thesis,
 
     department: "Department of Control Engineering",
 

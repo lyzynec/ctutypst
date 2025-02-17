@@ -5,7 +5,7 @@
 #let ctu-font = ("Technika")
 
 #let ctu-bachelor-thesis = "bachelor-thesis"
-#let ctu-diploma-thesis = "diploma-thesis"
+#let ctu-masters-thesis = "masters-thesis"
 
 #let appendix(body) = {
     set heading(numbering: "A.1")
@@ -96,9 +96,9 @@
             cs: "Bakalářská práce",
             en: "Bachelor Thesis",
         ),
-        diploma-thesis: (
+        masters-thesis: (
             cs: "Diplomová práce",
-            en: "Diploma Thesis",
+            en: "Masters Thesis",
         ),
 
         // this is inverted for obvious reasons
@@ -216,46 +216,43 @@
         
         #box(
             stroke: (left: 20pt + ctu-color),
-            inset: (left: 1.5em, top: 0.5em, bottom: 0.5em),
+            inset: (left: 2em, top: 0.5em, bottom: 0.5em),
             height: 100%,
         )[
-            #text(ctu-loc.at(thesis-type).at(lang), font: ctu-font, size: 2em)
 
-            #image(ctu-logo-map.faculty.at(institution).at(lang), height: 10em)
-
-            #v(1em)
-
-            #text(fill: ctu-color, font: ctu-font, size: 2.5em, weight: "bold", hyphenate: false, title)
+            #text(font: ctu-font, size: 2em, ctu-loc.at(thesis-type).at(lang)),
+            #image(ctu-logo-map.faculty.at(institution).at(lang), height: 130pt)
+            #v(4em)
+            #block(text(fill: ctu-color, font: ctu-font, size: 2.5em, weight: "bold", hyphenate: false, title))
             #v(2em)
-            #linebreak()
-            #text(fill: black, font: ctu-font, size: 2em, hyphenate: false, subtitle)
-            #linebreak()
+            #block(text(fill: black, font: ctu-font, size: 2em, hyphenate: false, subtitle))
+            #v(2em)
 
-            #align(horizon, [
-                #text(fill: black, font: ctu-font, size: 2em, hyphenate: false, author)
+            #align(horizon)[
+                #block(text(fill: black, font: ctu-font, size: 1.8em, hyphenate: false, author))
                 #v(2em)
                 #if department != none {
-                    text(fill: black, font: ctu-font, size: 1.6em, hyphenate: false, department)
+                    block(text(fill: black, font: ctu-font, size: 1.6em, hyphenate: false, department))
                 }
-            ])
+            ]
 
             #align(bottom)[
                 #if supervisor != none [
-                    #text(fill: black, font: ctu-font, size: 1.25em)[
-                        #ctu-loc.at("supervisor").at(lang): #supervisor
-                    ]
+                    #block(text(fill: black, font: ctu-font, size: 1.25em)[
+                        #ctu-loc.at("supervisor").at(lang): #h(1em) #supervisor
+                    ])
                 ]
 
                 #if study-program != none [
-                    #text(fill: black, font: ctu-font, size: 1.25em)[
-                        #ctu-loc.at("study-program").at(lang): #study-program
-                    ]
+                    #block(text(fill: black, font: ctu-font, size: 1.25em)[
+                        #ctu-loc.at("study-program").at(lang): #h(1em) #study-program
+                    ])
                 ]
 
-                #text(fill: black, font: ctu-font, size: 1.25em)[
+                #block(text(fill: black, font: ctu-font, size: 1.25em)[
                     #ctu-loc.at("months").at(date.month() - 1).at(lang)
                     #date.year() 
-                ]
+                ])
             ]
         ]
     ])
