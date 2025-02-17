@@ -163,13 +163,28 @@
     show heading.where(level: 1): it => {
         pagebreak()
         context if calc.even(here().page()) { page[] }
-        block(box(stroke: (left: 0.5em + ctu-color), inset: (left: 0.5em, bottom: 1em, top: 2em))[
+        block(box(stroke: (left: 15pt + ctu-color), inset: (left: 15pt, bottom: 1em, top: 2em))[
             #text(fill: black, weight: "regular")[
                 #it.supplement #context counter(heading).display()
             ]
             #linebreak()
             #it.body
-            #linebreak()
+        ])
+    }
+
+    show heading.where(level: 2): it => {
+        block(box(stroke: (left: 15pt + ctu-color), inset: (left: 15pt, top: 5pt, bottom: 5pt))[
+            #text(fill: black, weight: "regular")[
+                #context counter(heading).display()
+            ] #h(15pt) #it.body
+        ])
+    }
+
+    show heading.where(level: 3): it => {
+        block(box(stroke: (left: 15pt + ctu-color), inset: (left: 15pt, top: 5pt, bottom: 5pt))[
+            #text(fill: black, weight: "regular")[
+                #context counter(heading).display()
+            ] #h(15pt) #it.body
         ])
     }
 
@@ -200,7 +215,7 @@
         ))
         
         #box(
-            stroke: (left: 1.5em + ctu-color),
+            stroke: (left: 20pt + ctu-color),
             inset: (left: 1.5em, top: 0.5em, bottom: 0.5em),
             height: 100%,
         )[
@@ -248,9 +263,7 @@
     page[]
 
     if assignment != none {
-        set page(numbering: none)
-        muchpdf(read(assignment, encoding: none), height: 100%)
-        set page(numbering: "i")
+        page(numbering: none, margin: 0pt, muchpdf(read(assignment, encoding: none), height: 100%))
     }
 
     context if calc.even(here().page()) { page[] }
@@ -263,7 +276,7 @@
                     #acknowledgements
                 ]
             ),
-            grid.vline(stroke: 1.5em + ctu-color),
+            grid.vline(stroke: 20pt + ctu-color),
             box(inset: (left: 1em), height: 100%, if declaration != none [
                     #semi-heading(ctu-loc.at("declaration").at(lang))
                     #declaration
@@ -278,7 +291,7 @@
             #semi-heading(ctu-loc.at("abstract").at("cs"))
             #abstract-cs
         ]),
-        grid.vline(stroke: 1.5em + ctu-color),
+        grid.vline(stroke: 20pt + ctu-color),
         box(inset: (left: 1em), if abstract-en != none [
             #semi-heading(ctu-loc.at("abstract").at("en"))
             #abstract-en
@@ -310,7 +323,7 @@
 
     // contents
     page({
-        place(top + center, line(angle: 90deg, length: 100%, stroke: 1.5em + ctu-color))
+        place(top + center, line(angle: 90deg, length: 100%, stroke: 20pt + ctu-color))
         columns(2, gutter: 6em)[
             #semi-heading(ctu-loc.at("contents").at(lang))
             #outline(
@@ -323,7 +336,7 @@
         ]
     })
     page(context {if counter(figure).final().at(0) > 0 {
-        place(top + center, line(angle: 90deg, length: 100%, stroke: 1.5em + ctu-color))
+        place(top + center, line(angle: 90deg, length: 100%, stroke: 20pt + ctu-color))
         columns(2, gutter: 6em)[
             #semi-heading(ctu-loc.at("figures").at(lang))
             #outline(
@@ -350,7 +363,7 @@
             return [#numberingH(elems.first()) #elems.first().body] 
         } else {
             elems = query(selector(heading.where(level: level)).before(here()))
-            if elems.len() != 0 {
+            if elems.len() != 0 and counter(heading).at(elems.last().location()).len() > level {
                 return [#numberingH(elems.last()) #elems.last().body] 
             }
         }
