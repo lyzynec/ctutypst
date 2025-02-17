@@ -149,9 +149,7 @@
 
     set text(lang: lang, font: ctu-font)
 
-    set list(marker:
-        text(fill: ctu-color, font: ctu-font, weight: "bold", math.square.filled)
-    )
+    set list(marker: text(fill: ctu-color, font: ctu-font, weight: "bold", math.square.filled))
 
     set heading(numbering: "1.1")
     show heading: set text(fill: ctu-color, font: ctu-font, weight: "bold")
@@ -180,21 +178,8 @@
 
     set bibliography(title: none)
 
-    show link: set text(fill: ctu-color, weight: "bold")
-    show ref: set text(fill: ctu-color, weight: "bold")
-
-    let sub-heading(body) = {
-        box(
-            stroke: (left: 0.5em + ctu-color),
-            inset: (left: 0.5em, bottom: 1em))
-        [
-            #par(justify: false, first-line-indent: 0em)[
-                #text(fill: ctu-color, font: ctu-font, weight: "bold", size: 1.5em)[
-                    #body
-                ]
-            ]
-        ]
-    }
+    show link: set text(fill: ctu-color)
+    show ref: set text(fill: ctu-color)
 
     let semi-heading(body) = {
         box(width: 100%, inset: (bottom: 1em),
@@ -206,9 +191,14 @@
     }
 
     page(numbering: none, box[
-        #align(left)[#text(fill: ctu-color, font: ctu-font, weight: "bold", size: 2em, hyphenate: false)[
-            #ctu-loc.at("czech-technical-university").at(lang)
-        ]]
+        #align(left, text(
+            fill: ctu-color,
+            font: ctu-font,
+            weight: "bold",
+            size: 2em,
+            hyphenate: false,
+            ctu-loc.at("czech-technical-university").at(lang)
+        ))
         
         #box(
             stroke: (left: 1.5em + ctu-color),
@@ -265,7 +255,6 @@
     }
 
     context if calc.even(here().page()) { page[] }
-    
 
     // acknowledgements and declaration
     page(box(grid(columns: (50%, 50%), align: center, row-gutter: 5em,
@@ -351,7 +340,6 @@
     context if calc.even(here().page()) { page[] }
 
     counter(page).update(1)
-
 
     let numberingH(c)={
         return numbering(c.numbering,..counter(heading).at(c.location()))
