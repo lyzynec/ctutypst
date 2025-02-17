@@ -1,4 +1,4 @@
-#import "./lib.typ": ctutypst, appendix
+#import "./lib.typ": *
 
 // NOTE: All arguments areentirely optional.
 #show: ctutypst.with(
@@ -6,6 +6,8 @@
     author: "lyzynec",
     lang: "en",
     institution: "fel",
+
+    thesis-type: ctu-diploma-thesis,
 
     department: "Department of Control Engineering",
 

@@ -4,6 +4,9 @@
 #let ctu-color = rgb(0, 101, 189)
 #let ctu-font = ("Technika")
 
+#let ctu-bachelor-thesis = "bachelor-thesis"
+#let ctu-diploma-thesis = "diploma-thesis"
+
 #let appendix(body) = {
     set heading(numbering: "A.1")
     show heading.where(level: 1): set heading(supplement: [Appendix])
@@ -17,6 +20,7 @@
     author: (),
     lang: "cs",
     date: datetime.today(),
+    thesis-type: ctu-bachelor-thesis,
     institution: "fel",
     department: none,
 
@@ -203,7 +207,7 @@
             inset: (left: 1.5em, top: 0.5em, bottom: 0.5em),
             height: 100%,
         )[
-            #text(ctu-loc.at("diploma-thesis").at(lang), font: ctu-font, size: 2em)
+            #text(ctu-loc.at(thesis-type).at(lang), font: ctu-font, size: 2em)
 
             #image(ctu-logo-map.faculty.at(institution).at(lang), height: 10em)
 
