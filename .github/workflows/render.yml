@@ -1,0 +1,24 @@
+name: Render paper.pdf
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - uses: actions/checkout@v4
+      - uses: typst-community/setup-typst@v4
+        with:
+          cache-dependency-path: requirements.typ
+
+      - run: typst compile main.typ main.pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: main
+          path: main.pdf
