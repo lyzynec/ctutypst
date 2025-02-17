@@ -147,7 +147,7 @@
     set par(first-line-indent: 2em, justify: true)
     set block(spacing: 0.8em)
 
-    set text(lang: lang, font: ctu-font)
+    set text(lang: lang, font: "Libertinus Serif")
 
     set list(marker: text(fill: ctu-color, font: ctu-font, weight: "bold", math.square.filled))
 
@@ -210,17 +210,17 @@
 
             #v(1em)
 
-            #text(fill: ctu-color, font: ctu-font, size: 2.5em, weight: "bold", title)
+            #text(fill: ctu-color, font: ctu-font, size: 2.5em, weight: "bold", hyphenate: false, title)
             #v(2em)
             #linebreak()
-            #text(fill: black, font: ctu-font, size: 2em, subtitle)
+            #text(fill: black, font: ctu-font, size: 2em, hyphenate: false, subtitle)
             #linebreak()
 
             #align(horizon, [
-                #text(fill: black, font: ctu-font, size: 2em, author)
+                #text(fill: black, font: ctu-font, size: 2em, hyphenate: false, author)
                 #v(2em)
                 #if department != none {
-                    text(fill: black, font: ctu-font, size: 1.6em, department)
+                    text(fill: black, font: ctu-font, size: 1.6em, hyphenate: false, department)
                 }
             ])
 
@@ -257,54 +257,53 @@
 
     // acknowledgements and declaration
     page(box(grid(columns: (50%, 50%), align: center, row-gutter: 5em,
-            box(height: 100%)[
-                #if acknowledgements != none [
+            box(inset: (right: 1em), height: 100%,
+                if acknowledgements != none [
                     #semi-heading(ctu-loc.at("acknowledgement").at(lang))
                     #acknowledgements
                 ]
-            ],
+            ),
             grid.vline(stroke: 1.5em + ctu-color),
-            box(height: 100%)[
-                #if declaration != none [
+            box(inset: (left: 1em), height: 100%, if declaration != none [
                     #semi-heading(ctu-loc.at("declaration").at(lang))
                     #declaration
                 ]
-            ]
+            )
         )
     ))
 
     // abstract and keywords
     page(box(grid(columns: (50%, 50%), align: center, inset: 1em, row-gutter: 5em,
-        box(if abstract-cs != none [
+        box(inset: (right: 1em), if abstract-cs != none [
             #semi-heading(ctu-loc.at("abstract").at("cs"))
             #abstract-cs
         ]),
         grid.vline(stroke: 1.5em + ctu-color),
-        box(if abstract-en != none [
+        box(inset: (left: 1em), if abstract-en != none [
             #semi-heading(ctu-loc.at("abstract").at("en"))
             #abstract-en
         ]),
-        box(if keywords-cs != () [
+        box(inset: (right: 1em), if keywords-cs != () [
             #semi-heading(ctu-loc.at("keywords").at("cs"))
             #for keyword in keywords-cs [
                 #if keyword != keywords-cs.at(0) {","}
                 #keyword
             ]
         ]),
-        box(if keywords-en != () [
+        box(inset: (left: 1em), if keywords-en != () [
             #semi-heading(ctu-loc.at("keywords").at("en"))
             #for keyword in keywords-en [
                 #if keyword != keywords-en.at(0) {","}
                 #keyword
             ]
         ]),
-        box(height: 100%, if title-translated != none [
+        box(inset: (right: 1em), height: 100%, if title-translated != none [
             #semi-heading(ctu-loc.at("title-translation").at(lang))
-            #title-translated
+            #text(hyphenate: false, title-translated)
         ]),
-        box(height: 100%, if supervisor != none and supervisor-address != none [
+        box(inset: (left: 1em), height: 100%, if supervisor != none and supervisor-address != none [
             #semi-heading(ctu-loc.at("supervisor").at(lang))
-            #supervisor\
+            #text(size: 1.2em, supervisor)\
             #supervisor-address
         ]),
     )))
@@ -364,6 +363,7 @@
         ] else [
             #align(right, text(currentH(level: 2), size: 1em, font: ctu-font))
         ]
+        line(stroke: 0.1em + ctu-color, length: 100%)
     })
 
     body
